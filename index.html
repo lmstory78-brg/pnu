@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고1 영어 클래스</title>
+    <!-- Tailwind CSS 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome (아이콘) 로드 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Noto Sans KR) 로드 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+        }
+        
+        /* 카드 호버 효과 애니메이션 */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 상세 내용 표시/숨김 트랜지션 */
+        .content-transition {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        
+        .content-visible {
+            max-height: 1000px; /* 충분히 큰 값 설정 */
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        /* 영웅 섹션 배경 그라데이션 */
+        .hero-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        }
+        
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white py-20 px-6 sm:px-12 lg:px-24 text-center rounded-b-3xl shadow-lg relative overflow-hidden">
+        <!-- 배경 장식 요소 -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+            <i class="fas fa-book-open absolute top-10 left-10 text-6xl transform -rotate-12"></i>
+            <i class="fas fa-pencil-alt absolute bottom-10 right-10 text-6xl transform rotate-12"></i>
+            <i class="fas fa-globe-americas absolute top-20 right-20 text-4xl"></i>
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <span class="inline-block py-1 px-3 rounded-full bg-indigo-500 bg-opacity-50 text-indigo-100 text-sm font-semibold mb-4 tracking-wide">Lesson 1. A New Start</span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">Welcome to High School English!</h1>
+            <p class="text-lg md:text-xl text-indigo-100 mb-8 max-w-2xl mx-auto font-light">
+                고등학교 1학년 첫 영어 수업에 오신 것을 환영합니다! <br class="hidden md:block">
+                아래 카드들을 클릭하여 오늘 배울 핵심 문법, 본문 내용, 그리고 이번 주 과제를 확인해 보세요.
+            </p>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-6xl -mt-8 relative z-20">
+        
+        <!-- 카드 그리드 레이아웃 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- 1. 문법 카드 -->
+            <div class="bg-white rounded-2xl shadow-md p-6 card-hover cursor-pointer border-t-4 border-blue-500 flex flex-col" onclick="toggleContent('grammar-content', 'grammar-icon')">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-blue-100 p-3 rounded-full text-blue-600">
+                            <i class="fas fa-spell-check text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">핵심 문법</h2>
+                    </div>
+                    <i id="grammar-icon" class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                </div>
+                <p class="text-gray-600 mb-2 font-medium">Key Grammar Points</p>
+                <p class="text-sm text-gray-500 mb-2">이번 단원에서 꼭 알아야 할 문법 규칙을 확인합니다.</p>
+                
+                <!-- 문법 상세 내용 (기본 숨김) -->
+                <div id="grammar-content" class="content-transition bg-blue-50 p-4 rounded-xl mt-auto">
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <strong class="text-gray-800">현재완료 (Present Perfect)</strong>
+                                <p class="text-sm text-gray-600 mt-1">과거에 일어난 일이 현재까지 영향을 미칠 때 사용합니다. (have/has + p.p)</p>
+                                <code class="block bg-white px-2 py-1 rounded mt-1 text-sm text-blue-700">I have lived in Seoul since 2010.</code>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <strong class="text-gray-800">관계대명사 (Relative Pronouns)</strong>
+                                <p class="text-sm text-gray-600 mt-1">두 문장을 연결하며 앞의 명사(선행사)를 꾸며줍니다. (who, which, that)</p>
+                                <code class="block bg-white px-2 py-1 rounded mt-1 text-sm text-blue-700">The boy who is playing soccer is my brother.</code>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. 본문 내용 카드 -->
+            <div class="bg-white rounded-2xl shadow-md p-6 card-hover cursor-pointer border-t-4 border-green-500 flex flex-col" onclick="toggleContent('reading-content', 'reading-icon')">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-green-100 p-3 rounded-full text-green-600">
+                            <i class="fas fa-book-reader text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">본문 내용</h2>
+                    </div>
+                    <i id="reading-icon" class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                </div>
+                <p class="text-gray-600 mb-2 font-medium">Main Reading</p>
+                <p class="text-sm text-gray-500 mb-2">본문의 주요 줄거리와 새로운 어휘를 파악합니다.</p>
+                
+                <!-- 본문 상세 내용 (기본 숨김) -->
+                <div id="reading-content" class="content-transition bg-green-50 p-4 rounded-xl mt-auto">
+                    <h3 class="font-bold text-green-800 mb-2">Title: The First Day of High School</h3>
+                    <p class="text-sm text-gray-700 mb-3 leading-relaxed">
+                        주인공 지훈이가 고등학교에 입학하여 겪는 첫날의 설렘과 두려움, 그리고 새로운 친구들을 사귀며 적응해 나가는 과정을 그린 이야기입니다.
+                    </p>
+                    <div class="bg-white p-3 rounded-lg border border-green-100">
+                        <strong class="text-sm text-gray-800 block mb-1">📝 필수 어휘 (Vocabulary)</strong>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">nervous (긴장한)</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">introduce (소개하다)</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">homeroom (조회 시간)</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">atmosphere (분위기)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 과제 카드 -->
+            <div class="bg-white rounded-2xl shadow-md p-6 card-hover cursor-pointer border-t-4 border-purple-500 flex flex-col" onclick="toggleContent('assignment-content', 'assignment-icon')">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-purple-100 p-3 rounded-full text-purple-600">
+                            <i class="fas fa-tasks text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">이번 주 과제</h2>
+                    </div>
+                    <i id="assignment-icon" class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                </div>
+                <p class="text-gray-600 mb-2 font-medium">Weekly Assignments</p>
+                <p class="text-sm text-gray-500 mb-2">기한 내에 완료해야 할 과제 목록입니다.</p>
+                
+                <!-- 과제 상세 내용 (기본 숨김) -->
+                <div id="assignment-content" class="content-transition bg-purple-50 p-4 rounded-xl mt-auto">
+                    <ul class="space-y-4 mb-4">
+                        <li class="bg-white p-3 rounded-lg shadow-sm flex items-start border-l-4 border-purple-400">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-gray-800 text-sm">1. 단어장 암기</h4>
+                                <p class="text-xs text-gray-500 mt-1">Lesson 1 단어 1~20번 암기 및 뜻 쓰기</p>
+                            </div>
+                            <span class="text-xs font-semibold text-red-500 bg-red-50 px-2 py-1 rounded">D-2</span>
+                        </li>
+                        <li class="bg-white p-3 rounded-lg shadow-sm flex items-start border-l-4 border-indigo-400">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-gray-800 text-sm">2. 영작 연습</h4>
+                                <p class="text-xs text-gray-500 mt-1">현재완료를 사용한 문장 5개 만들기</p>
+                            </div>
+                            <span class="text-xs font-semibold text-orange-500 bg-orange-50 px-2 py-1 rounded">D-4</span>
+                        </li>
+                    </ul>
+                    
+                    <!-- 제출 버튼 -->
+                    <button onclick="submitAssignment(event)" class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 shadow-md">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>과제 제출하기</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- 추가 정보 / 공지사항 영역 -->
+        <div class="mt-12 bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex items-start space-x-4">
+            <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full flex-shrink-0">
+                <i class="fas fa-bullhorn text-xl"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-gray-800 mb-1">선생님의 한마디 📢</h3>
+                <p class="text-gray-600 leading-relaxed text-sm">
+                    여러분, 고등학교 첫 영어를 너무 어렵게 생각하지 마세요. 매일 꾸준히 단어를 외우고 본문을 읽다 보면 어느새 실력이 쑥쑥 자라있을 거예요. 질문이 있다면 언제든지 교무실로 찾아오거나 온라인으로 질문 남겨주세요. 화이팅! 👩‍🏫✨
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-6 text-center mt-auto">
+        <p class="text-sm">© 2026 High School English Class. All rights reserved.</p>
+        <p class="text-xs mt-1">Designed for interactive learning.</p>
+    </footer>
+
+    <!-- Custom JS -->
+    <script>
+        /**
+         * 카드 클릭 시 콘텐츠를 토글(펼침/접음)하는 함수
+         * @param {string} contentId - 펼칠 콘텐츠 영역의 ID
+         * @param {string} iconId - 회전시킬 화살표 아이콘의 ID
+         */
+        function toggleContent(contentId, iconId) {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            
+            // 모든 카드가 열려있을 수 있도록 구현 (아코디언 방식이 아님)
+            if (content.classList.contains('content-visible')) {
+                // 숨기기
+                content.classList.remove('content-visible');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // 보이기
+                content.classList.add('content-visible');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        /**
+         * 과제 제출 버튼 클릭 시 이벤트 (이벤트 버블링 방지)
+         * @param {Event} event 
+         */
+        function submitAssignment(event) {
+            // 버튼 클릭 시 카드가 접히는 것을 방지
+            event.stopPropagation();
+            
+            // alert() 대신 커스텀 메시지 박스를 사용하라는 지침에 따라
+            // 간단한 모달이나 토스트 알림을 만드는 것이 좋지만, 
+            // 여기서는 UI의 복잡도를 낮추기 위해 간단한 브라우저 알림 대신 커스텀 토스트 함수를 호출하도록 가정합니다.
+            showToastMessage("✅ 과제 제출 페이지로 이동합니다.", "success");
+        }
+
+        /**
+         * 간단한 커스텀 토스트 메시지 생성 함수
+         */
+        function showToastMessage(message, type) {
+            // 토스트 컨테이너 생성
+            const toast = document.createElement('div');
+            
+            // 스타일 클래스
+            let bgClass = type === 'success' ? 'bg-green-600' : 'bg-gray-800';
+            
+            toast.className = `fixed bottom-5 right-5 ${bgClass} text-white px-6 py-3 rounded-lg shadow-xl z-50 transform transition-all duration-300 translate-y-10 opacity-0 flex items-center space-x-2 font-medium`;
+            
+            // 내용 설정
+            toast.innerHTML = `<span>${message}</span>`;
+            
+            // body에 추가
+            document.body.appendChild(toast);
+            
+            // 애니메이션: 나타나기
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 10);
+            
+            // 애니메이션: 3초 후 사라지기
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                // DOM에서 제거
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // 페이지 로드 시 첫 번째(문법) 카드를 살짝 열어두어 사용자가 상호작용 가능한 요소임을 인지하게 할 수 있습니다. (선택사항)
+        // window.onload = function() {
+        //    setTimeout(() => toggleContent('grammar-content', 'grammar-icon'), 500);
+        // };
+    </script>
+</body>
+</html>
